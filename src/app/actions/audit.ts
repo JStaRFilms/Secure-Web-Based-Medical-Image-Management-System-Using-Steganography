@@ -3,13 +3,20 @@
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
+
 export async function logAudit(operation: string, details?: string) {
     try {
+        const session = await auth.api.getSession({
+            headers: await headers()
+        })
+
         await prisma.encryptionEvent.create({
             data: {
                 operation,
                 details,
-                // userId: session?.user?.id // Todo: Get from auth
+                userId: session?.user?.id || 'anonymous'
             }
         })
         revalidatePath('/dashboard')
@@ -48,8 +55,21 @@ export async function getAuditStats() {
             where: { operation: 'DECRYPT_OP' }
         })
 
-        // Calculate weekly growth (Mock logic for now or real DB query)
-        const weeklyGrowth = 12 // Placeholder
+        // Calculate weekly growth
+        const sevenDaysAgo = new Date()
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+
+        const recentEncryptions = await prisma.encryptionEvent.count({
+            where: {
+                operation: 'ENCRYPT_OP',
+                timestamp: { gte: sevenDaysAgo }
+            }
+        })
+
+        // Simple growth logic: Just showing recent count for now as "growth" context
+        // Or if we want percentage: (recent / total) * 100? 
+        // Let's just return the raw number of new encryptions this week.
+        const weeklyGrowth = recentEncryptions
 
         return {
             totalEncryptions,

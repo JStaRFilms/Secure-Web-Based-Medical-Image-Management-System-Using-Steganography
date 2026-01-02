@@ -275,7 +275,12 @@ export default function EncryptionLabPage() {
                                 <img src={previewUrl} alt="Medical Scan" className="w-full h-full object-contain opacity-80" />
 
                                 {isProcessing && (
-                                    <div className="absolute inset-0 bg-cyan-500/10 w-full h-2 animate-scan shadow-[0_0_20px_rgba(6,182,212,0.8)]"></div>
+                                    <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden rounded">
+                                        {/* Scan Line */}
+                                        <div className="absolute top-0 left-0 w-full h-[5%] bg-gradient-to-b from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_rgba(34,211,238,0.8)] animate-scan opacity-80"></div>
+                                        {/* Cyber Overlay Tint */}
+                                        <div className="absolute inset-0 bg-cyan-900/20 mix-blend-overlay"></div>
+                                    </div>
                                 )}
                             </div>
 

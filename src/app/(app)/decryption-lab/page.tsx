@@ -133,16 +133,27 @@ export default function DecryptionLabPage() {
                                     {decryptedMessage}
                                 </div>
 
-                                <button
-                                    onClick={() => {
-                                        setDecryptedMessage(null)
-                                        setFile(null)
-                                        setLogs(['> System ready.'])
-                                    }}
-                                    className="mt-6 w-full py-3 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 rounded-lg font-medium transition-colors"
-                                >
-                                    Process Another Image
-                                </button>
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(decryptedMessage || '')
+                                            alert('Copied to clipboard!')
+                                        }}
+                                        className="mt-6 flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                                    >
+                                        Copy to Clipboard
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setDecryptedMessage(null)
+                                            setFile(null)
+                                            setLogs(['> System ready.'])
+                                        }}
+                                        className="mt-6 flex-1 py-3 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 rounded-lg font-medium transition-colors"
+                                    >
+                                        Process Another
+                                    </button>
+                                </div>
                             </div>
                         ) : requiresPassword ? (
                             /* Password Prompt */

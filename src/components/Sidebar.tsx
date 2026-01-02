@@ -6,9 +6,20 @@ import { ShieldCheck, LayoutDashboard, Lock, Unlock, History, Settings, User } f
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils' // Assuming standard util exists, otherwise I'll import clsx/twMerge directly or create it.
 import ThemeToggle from './ThemeToggle'
+import { authClient } from '@/lib/auth-client'
 
 export default function Sidebar() {
     const pathname = usePathname()
+    // 1. Fetch Session from our custom auth client (wrapper around better-auth)
+    // Note: Assuming auth-client export structure. If simply `createAuthClient`, we need imports.
+    // For now assuming: import { authClient } from '@/lib/auth-client'
+    // Let's check imports first. We need to add import.
+
+    // Actually, I'll write the full component to be safe with imports.
+    // ... wait, I need to add the import first in a clean way or replace the whole file content block intelligently.
+    // I'll assume standard imports.
+
+    const { data: session, isPending } = authClient.useSession()
 
     const isActive = (path: string) => {
         return pathname === path
@@ -56,12 +67,22 @@ export default function Sidebar() {
 
             <div className="p-4 border-t border-slate-200 dark:border-zinc-800">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-zinc-700 flex items-center justify-center">
-                        <User className="w-4 h-4 text-slate-500" />
+                    <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-zinc-700 flex items-center justify-center overflow-hidden">
+                        {session?.user?.image ? (
+                            <img src={session.user.image} alt="User" className="w-full h-full object-cover" />
+                        ) : (
+                            <User className="w-4 h-4 text-slate-500" />
+                        )}
                     </div>
-                    <div>
-                        <p className="text-xs font-medium">Dr. Sam</p>
-                        <p className="text-[10px] text-slate-500 dark:text-zinc-500">Radiology Dept.</p>
+                    <div className="overflow-hidden">
+                        {isPending ? (
+                            <div className="h-3 w-20 bg-slate-200 dark:bg-zinc-800 animate-pulse rounded" />
+                        ) : (
+                            <>
+                                <p className="text-xs font-medium truncate">{session?.user?.name || 'Guest User'}</p>
+                                <p className="text-[10px] text-slate-500 dark:text-zinc-500 truncate">{session?.user?.email || 'Sign in required'}</p>
+                            </>
+                        )}
                     </div>
                 </div>
 
