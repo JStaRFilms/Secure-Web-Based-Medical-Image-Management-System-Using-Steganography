@@ -10,7 +10,7 @@
    - Tailwind CSS - Utility first.
    - TypeScript - Strict mode.
    - Shadcn UI - For components.
-   - Clerk - Authentication.
+   - Better Auth - Authentication (Self-hosted).
    - Prisma - Database (SQLite Dev, Neon Prod).
 3. **Logic:**
    - Image processing (LSB) happens on the **Client**.

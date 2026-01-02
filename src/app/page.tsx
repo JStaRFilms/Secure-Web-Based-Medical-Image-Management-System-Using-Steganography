@@ -1,15 +1,18 @@
 import Link from 'next/link'
-import { ShieldCheck, Lock, PlayCircle } from 'lucide-react'
-import { ThemeToggle } from '@/components/ThemeToggle'
+import { ShieldCheck, Lock, PlayCircle, Moon, Sun, ArrowRight, FileLock, FileKey } from 'lucide-react'
+import ThemeToggle from '@/components/ThemeToggle'
 
 export default function Home() {
   return (
-    <div className="bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 min-h-screen font-sans transition-colors duration-300 overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans transition-colors duration-300">
 
-      {/* Theme Toggle - Fixed */}
-      <div className="fixed top-6 right-6 z-50">
-        <ThemeToggle />
-      </div>
+      {/* Theme Toggle is now likely handled by a component or global layout, but sticking to mockup placement if needed. 
+          However, usually it's better in the Nav. The mockup has it fixed top-right. */}
+      {/* <div className="fixed top-6 right-6 z-50">
+           <ThemeToggle />
+      </div> */}
+      {/* Note: I will use the one in the Nav or the floating one if strictly following mockup. 
+          Mockup has a fixed floating button. */}
 
       {/* Nav */}
       <nav className="border-b border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md sticky top-0 z-40">
