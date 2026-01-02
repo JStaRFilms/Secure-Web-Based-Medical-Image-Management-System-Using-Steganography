@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigSam Steganography - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        clinical: { bg: '#f8fafc', surface: '#ffffff', primary: '#2563eb', accent: '#0ea5e9' },
+                        cyber: { bg: '#09090b', surface: '#18181b', primary: '#06b6d4', accent: '#6366f1' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans transition-colors duration-300">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- Sidebar Navigation -->
+        <aside
+            class="w-64 border-r border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hidden md:flex flex-col">
+            <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-zinc-800">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-blue-600 dark:bg-cyan-600 rounded flex items-center justify-center">
+                        <i data-lucide="shield-check" class="text-white w-4 h-4"></i>
+                    </div>
+                    <span class="font-bold tracking-tight text-sm">BigSam<span
+                            class="text-slate-400 dark:text-zinc-500">Stego</span></span>
+                </div>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-1">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 dark:bg-cyan-900/20 dark:text-cyan-400 text-sm font-medium">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+                </a>
+                <a href="encryption-lab.html"
+                    class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors text-sm font-medium">
+                    <i data-lucide="lock" class="w-4 h-4"></i> Encryption Lab
+                </a>
+                <a href="decryption-lab.html"
+                    class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors text-sm font-medium">
+                    <i data-lucide="unlock" class="w-4 h-4"></i> Decryption Lab
+                </a>
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors text-sm font-medium">
+                    <i data-lucide="history" class="w-4 h-4"></i> Audit Logs
+                </a>
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors text-sm font-medium">
+                    <i data-lucide="settings" class="w-4 h-4"></i> Settings
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-200 dark:border-zinc-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-zinc-700"></div>
+                    <div>
+                        <p class="text-xs font-medium">Dr. Sam</p>
+                        <p class="text-[10px] text-slate-500 dark:text-zinc-500">Radiology Dept.</p>
+                    </div>
+                </div>
+                <button onclick="toggleTheme()"
+                    class="mt-4 w-full flex items-center justify-center gap-2 p-2 text-xs font-medium border border-slate-200 dark:border-zinc-700 rounded text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-zinc-800">
+                    <i data-lucide="moon" class="w-3 h-3"></i> Toggle Theme
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <header
+                class="h-16 border-b border-slate-200 dark:border-zinc-800 flex items-center justify-between px-8 bg-white/50 dark:bg-zinc-950/50 backdrop-blur-sm sticky top-0 z-10">
+                <h2 class="text-lg font-semibold">Command Center</h2>
+                <div
+                    class="flex items-center gap-2 text-xs font-mono text-green-600 dark:text-emerald-400 bg-green-50 dark:bg-emerald-900/20 px-2 py-1 rounded">
+                    <div class="w-2 h-2 rounded-full bg-green-500 dark:bg-emerald-500 animate-pulse"></div>
+                    SYSTEM SECURE
+                </div>
+            </header>
+
+            <div class="p-8 max-w-6xl mx-auto space-y-8">
+
+                <!-- Welcome Section -->
+                <div>
+                    <h1 class="text-2xl font-bold mb-2">Welcome back, Dr. Sam.</h1>
+                    <p class="text-slate-500 dark:text-zinc-400">System is ready for steganographic operations.</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500 dark:text-zinc-400">Encrypted Images</span>
+                            <i data-lucide="lock" class="w-5 h-5 text-blue-600 dark:text-cyan-500"></i>
+                        </div>
+                        <p class="text-3xl font-bold font-mono">124</p>
+                        <p class="text-xs text-green-500 mt-1 flex items-center gap-1"><i data-lucide="arrow-up"
+                                class="w-3 h-3"></i> +12 this week</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500 dark:text-zinc-400">Decryption Events</span>
+                            <i data-lucide="unlock" class="w-5 h-5 text-purple-600 dark:text-indigo-500"></i>
+                        </div>
+                        <p class="text-3xl font-bold font-mono">45</p>
+                        <p class="text-xs text-slate-400 mt-1">Last activity: 2h ago</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500 dark:text-zinc-400">Security Level</span>
+                            <i data-lucide="shield" class="w-5 h-5 text-green-600 dark:text-emerald-500"></i>
+                        </div>
+                        <p class="text-3xl font-bold font-mono text-green-600 dark:text-emerald-500">HIGH</p>
+                        <p class="text-xs text-slate-400 mt-1">Audit Log: Active</p>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <a href="encryption-lab.html"
+                        class="flex items-center p-6 bg-blue-600 text-white dark:bg-cyan-600 rounded-xl hover:bg-blue-700 dark:hover:bg-cyan-700 transition-all shadow-lg shadow-blue-500/20 dark:shadow-cyan-500/20 group">
+                        <div
+                            class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="file-lock" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">New Encryption</h3>
+                            <p class="text-blue-100 dark:text-cyan-100 text-sm">Embed diagnosis into a new image.</p>
+                        </div>
+                        <i data-lucide="arrow-right" class="ml-auto w-5 h-5"></i>
+                    </a>
+
+                    <a href="decryption-lab.html"
+                        class="flex items-center p-6 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-slate-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="file-key" class="w-6 h-6 text-slate-700 dark:text-zinc-300"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Decrypt Image</h3>
+                            <p class="text-slate-500 dark:text-zinc-400 text-sm">Extract hidden data from an image.</p>
+                        </div>
+                        <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-400"></i>
+                    </a>
+                </div>
+
+                <!-- Recent Activity Table Placeholder -->
+                <div
+                    class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-zinc-800">
+                        <h3 class="font-semibold text-sm">Recent Activity</h3>
+                    </div>
+                    <div class="divide-y divide-slate-100 dark:divide-zinc-800">
+                        <div class="px-6 py-4 flex items-center justify-between text-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                                <span class="font-mono text-slate-600 dark:text-zinc-400">ENCRYPT_OP</span>
+                                <span class="text-slate-900 dark:text-zinc-200">patient_scan_04.png</span>
+                            </div>
+                            <span class="text-slate-400 text-xs">2 mins ago</span>
+                        </div>
+                        <div class="px-6 py-4 flex items-center justify-between text-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-purple-500"></div>
+                                <span class="font-mono text-slate-600 dark:text-zinc-400">DECRYPT_OP</span>
+                                <span class="text-slate-900 dark:text-zinc-200">chest_xray_v2.png</span>
+                            </div>
+                            <span class="text-slate-400 text-xs">1 hour ago</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigSam Steganography - Encryption Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        clinical: { bg: '#f8fafc', surface: '#ffffff', primary: '#2563eb', accent: '#0ea5e9' },
+                        cyber: { bg: '#09090b', surface: '#18181b', primary: '#06b6d4', accent: '#6366f1' }
+                    },
+                    animation: {
+                        'scan': 'scan 2.5s linear infinite',
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { transform: 'translateY(100%)', opacity: '0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans transition-colors duration-300 h-screen flex flex-col">
+
+    <!-- Nav Stub -->
+    <nav
+        class="border-b border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md px-6 h-16 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+            <a href="dashboard.html" class="p-2 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </a>
+            <span class="font-bold tracking-tight">Encryption Lab</span>
+        </div>
+        <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800">
+            <i data-lucide="moon" class="w-5 h-5"></i>
+        </button>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 flex overflow-hidden">
+
+        <!-- Tools Panel (Left) -->
+        <aside
+            class="w-96 border-r border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 flex flex-col overflow-y-auto">
+
+            <!-- Step 1: Upload -->
+            <div class="mb-8">
+                <h3
+                    class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-500 mb-4 flex items-center gap-2">
+                    <span
+                        class="w-6 h-6 rounded bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-xs">1</span>
+                    Source Image
+                </h3>
+                <div
+                    class="border-2 border-dashed border-slate-300 dark:border-zinc-700 rounded-xl p-8 text-center hover:border-blue-500 dark:hover:border-cyan-500 transition-colors cursor-pointer bg-slate-50 dark:bg-zinc-950/50">
+                    <i data-lucide="upload-cloud" class="w-10 h-10 mx-auto text-slate-400 mb-2"></i>
+                    <p class="text-sm font-medium">Drop X-Ray or Scan</p>
+                    <p class="text-xs text-slate-400 mt-1">PNG, JPG only</p>
+                </div>
+            </div>
+
+            <!-- Step 2: Payload -->
+            <div class="mb-8 flex-1">
+                <h3
+                    class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-500 mb-4 flex items-center gap-2">
+                    <span
+                        class="w-6 h-6 rounded bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-xs">2</span>
+                    Diagnosis Payload
+                </h3>
+                <div class="relative h-48">
+                    <textarea
+                        class="w-full h-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 resize-none"
+                        placeholder="Enter patient diagnosis, markers, or private medical notes here..."></textarea>
+                    <div class="absolute bottom-2 right-2 text-[10px] text-slate-400 font-mono">0 chars</div>
+                </div>
+
+                <div class="mt-4 space-y-3">
+                    <label
+                        class="flex items-center gap-2 p-3 border border-slate-200 dark:border-zinc-800 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors">
+                        <input type="checkbox" class="rounded text-blue-600 dark:text-cyan-500 focus:ring-offset-0">
+                        <span class="text-sm font-medium">Compress Payload</span>
+                    </label>
+                    <label
+                        class="flex items-center gap-2 p-3 border border-slate-200 dark:border-zinc-800 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors">
+                        <input type="checkbox" class="rounded text-blue-600 dark:text-cyan-500 focus:ring-offset-0">
+                        <span class="text-sm font-medium">Add Password Protection (Optional)</span>
+                    </label>
+                </div>
+            </div>
+
+            <button
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white dark:bg-cyan-600 dark:hover:bg-cyan-700 py-4 rounded-xl font-bold shadow-lg shadow-blue-500/20 dark:shadow-cyan-500/20 transition-all active:scale-95 flex items-center justify-center gap-2">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+                ENCODE DATA
+            </button>
+
+        </aside>
+
+        <!-- Preview Panel (Right) -->
+        <section
+            class="flex-1 bg-slate-50 dark:bg-zinc-950 p-8 flex items-center justify-center relative overflow-hidden">
+            <!-- Grid BG -->
+            <div
+                class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none">
+            </div>
+
+            <!-- Empty State -->
+            <div class="text-center text-slate-400 dark:text-zinc-600">
+                <i data-lucide="image" class="w-24 h-24 mx-auto mb-4 opacity-50"></i>
+                <p class="font-mono text-sm">WAITING FOR IMAGE SOURCE...</p>
+            </div>
+
+            <!-- Active State (Hidden for initial mockup, but conceptually structured here) -->
+            <div
+                class="hidden relative max-w-2xl w-full aspect-[4/3] bg-black rounded shadow-2xl overflow-hidden border border-zinc-800">
+                <img src="#" alt="Medical Scan" class="w-full h-full object-cover opacity-50 grayscale">
+                <!-- Scanning Effect -->
+                <div
+                    class="absolute inset-0 bg-cyan-500/10 w-full h-2 animate-scan shadow-[0_0_20px_rgba(6,182,212,0.8)]">
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+    </script>
+</body>
+
+</html>

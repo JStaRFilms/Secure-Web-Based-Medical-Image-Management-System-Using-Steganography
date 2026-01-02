@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigSam Steganography - Design System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        // Clinical (Light Mode) specifics
+                        clinical: {
+                            bg: '#f8fafc', // slate-50
+                            surface: '#ffffff',
+                            primary: '#2563eb', // blue-600
+                            accent: '#0ea5e9', // sky-500
+                        },
+                        // Cyber (Dark Mode) specifics
+                        cyber: {
+                            bg: '#09090b', // zinc-950
+                            surface: '#18181b', // zinc-900
+                            primary: '#06b6d4', // cyan-500
+                            accent: '#6366f1', // indigo-500
+                        }
+                    },
+                    animation: {
+                        'scan': 'scan 2s linear infinite',
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-300 font-sans selection:bg-blue-200 dark:selection:bg-cyan-900">
+
+    <!-- Theme Toggle Fixed -->
+    <div class="fixed top-6 right-6 z-50">
+        <button onclick="toggleTheme()" class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded-full shadow-lg flex items-center gap-2 hover:scale-105 transition-transform">
+            <i data-lucide="sun" class="w-4 h-4 dark:hidden text-orange-500"></i>
+            <i data-lucide="moon" class="w-4 h-4 hidden dark:block text-cyan-400"></i>
+            <span class="text-sm font-medium">Switch Theme</span>
+        </button>
+    </div>
+
+    <!-- Container -->
+    <div class="max-w-5xl mx-auto p-12">
+        
+        <!-- Header -->
+        <header class="mb-16 border-b border-slate-200 dark:border-zinc-800 pb-12">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 bg-blue-600 dark:bg-cyan-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 dark:shadow-cyan-500/20">
+                    <i data-lucide="shield-check" class="text-white w-7 h-7"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight">BigSam Steganography</h1>
+                    <p class="text-slate-500 dark:text-zinc-400 font-mono text-sm mt-1">DESIGN SYSTEM v1.0</p>
+                </div>
+            </div>
+            <p class="text-slate-600 dark:text-zinc-400 max-w-2xl">
+                This system features a dual-personality interface. <br>
+                <strong class="text-blue-600">Light Mode</strong> represents the "Sterile/Clinical" environment.<br>
+                <strong class="text-cyan-400">Dark Mode</strong> represents the "Cyber/Security" underlayer.
+            </p>
+        </header>
+
+        <!-- Colors -->
+        <section class="mb-20">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <i data-lucide="palette" class="w-5 h-5 text-blue-500 dark:text-cyan-500"></i>
+                Color Palette
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Primary -->
+                <div class="space-y-2">
+                    <div class="h-24 rounded-xl bg-blue-600 dark:bg-cyan-500 shadow-lg flex items-end p-3">
+                        <span class="text-white font-mono text-xs">Primary</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-zinc-500">Action / Highlight</p>
+                </div>
+                
+                <!-- Surface -->
+                <div class="space-y-2">
+                    <div class="h-24 rounded-xl bg-white border border-slate-200 dark:bg-zinc-900 dark:border-zinc-800 shadow-sm flex items-end p-3">
+                        <span class="text-slate-900 dark:text-zinc-100 font-mono text-xs">Surface</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-zinc-500">Cards / Panels</p>
+                </div>
+
+                <!-- Background -->
+                <div class="space-y-2">
+                    <div class="h-24 rounded-xl bg-slate-50 border border-slate-200 dark:bg-zinc-950 dark:border-zinc-800 flex items-end p-3">
+                        <span class="text-slate-900 dark:text-zinc-100 font-mono text-xs">Background</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-zinc-500">Page Background</p>
+                </div>
+
+                <!-- Error -->
+                <div class="space-y-2">
+                    <div class="h-24 rounded-xl bg-red-500 dark:bg-rose-500 flex items-end p-3">
+                        <span class="text-white font-mono text-xs">Destructive</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-zinc-500">Errors / Warnings</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography -->
+        <section class="mb-20">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <i data-lucide="type" class="w-5 h-5 text-blue-500 dark:text-cyan-500"></i>
+                Typography
+            </h2>
+            <div class="space-y-8 border-l-2 border-slate-200 dark:border-zinc-800 pl-6">
+                <div>
+                    <h1 class="text-4xl font-bold mb-2">Heading 1 - Inter Bold</h1>
+                    <p class="text-sm text-slate-400 font-mono">text-4xl font-bold</p>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold mb-2">Heading 2 - Inter Semibold</h2>
+                    <p class="text-sm text-slate-400 font-mono">text-2xl font-semibold</p>
+                </div>
+                <div>
+                    <p class="leading-relaxed text-slate-600 dark:text-zinc-400 max-w-xl">
+                        Body Text - Inter Regular. The quick brown fox jumps over the lazy dog. 
+                        Design is intelligence made visible. Security is not a product, but a process.
+                    </p>
+                    <p class="text-sm text-slate-400 font-mono mt-2">text-base text-slate-600 dark:text-zinc-400</p>
+                </div>
+                <div>
+                    <p class="font-mono text-sm text-blue-600 dark:text-cyan-400 bg-blue-50 dark:bg-cyan-900/20 inline-block px-2 py-1 rounded">
+                        0x4F 0x4B 0x20 0x47 0x4F // Monospace Data
+                    </p>
+                    <p class="text-sm text-slate-400 font-mono mt-2">font-mono text-sm</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Components -->
+        <section class="mb-20">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <i data-lucide="box" class="w-5 h-5 text-blue-500 dark:text-cyan-500"></i>
+                Components
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                
+                <!-- Buttons -->
+                <div class="space-y-6">
+                    <h3 class="text-sm font-mono uppercase tracking-wider text-slate-500">Interactive</h3>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white dark:bg-cyan-600 dark:hover:bg-cyan-700 px-5 py-2.5 rounded-lg font-medium shadow-lg shadow-blue-500/20 dark:shadow-cyan-500/20 transition-all active:scale-95">
+                            Primary Action
+                        </button>
+                        
+                        <button class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700 px-5 py-2.5 rounded-lg font-medium transition-all">
+                            Secondary
+                        </button>
+
+                        <button class="bg-red-50 hover:bg-red-100 text-red-600 dark:bg-rose-900/20 dark:hover:bg-rose-900/30 dark:text-rose-400 px-5 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i> Delete
+                        </button>
+                    </div>
+
+                    <!-- Input -->
+                     <div class="space-y-2 max-w-sm">
+                        <label class="text-sm font-medium text-slate-700 dark:text-zinc-300">Secure Key Input</label>
+                        <div class="relative">
+                            <i data-lucide="lock" class="absolute left-3 top-3 w-4 h-4 text-slate-400"></i>
+                            <input type="password" value="SuperSecretKey" class="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-lg py-2.5 pl-10 pr-4 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500">
+                        </div>
+                     </div>
+                </div>
+
+                <!-- Card -->
+                <div class="space-y-6">
+                    <h3 class="text-sm font-mono uppercase tracking-wider text-slate-500">Surfaces</h3>
+                    
+                    <!-- Card Example -->
+                    <div class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                        
+                        <!-- Decorative "Cyber" overlay only in dark mode -->
+                        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none opacity-0 dark:opacity-20"></div>
+
+                        <div class="flex justify-between items-start mb-4 relative z-10">
+                            <div class="p-2 bg-blue-50 dark:bg-cyan-900/20 rounded-lg">
+                                <i data-lucide="file-image" class="w-6 h-6 text-blue-600 dark:text-cyan-400"></i>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400">
+                                Protected
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-semibold mb-1 relative z-10">Patient_XRay_001.png</h3>
+                        <p class="text-sm text-slate-500 dark:text-zinc-400 mb-4 relative z-10">Encoded on Jan 02, 2026</p>
+                        
+                        <div class="w-full bg-slate-100 dark:bg-zinc-800 rounded-full h-1.5 mb-2 relative z-10">
+                            <div class="bg-blue-600 dark:bg-cyan-500 h-1.5 rounded-full w-full"></div>
+                        </div>
+                        <p class="text-xs text-right text-slate-400 font-mono relative z-10">100% Secure</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Animation Demo -->
+        <section>
+             <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <i data-lucide="activity" class="w-5 h-5 text-blue-500 dark:text-cyan-500"></i>
+                Animations
+            </h2>
+
+            <div class="bg-black rounded-xl p-8 relative overflow-hidden border border-zinc-800 w-full max-w-sm mx-auto">
+                 <div class="absolute top-0 left-0 w-full h-1 bg-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.8)] animate-scan z-20"></div>
+                 
+                 <div class="text-center relative z-10 space-y-4">
+                    <i data-lucide="fingerprint" class="w-16 h-16 text-zinc-700 mx-auto opacity-50"></i>
+                    <p class="text-zinc-500 font-mono text-sm">SCANNING PIXELS...</p>
+                 </div>
+
+                 <!-- Grid Background -->
+                 <div class="absolute inset-0 bg-[linear-gradient(to_right,#202020_1px,transparent_1px),linear-gradient(to_bottom,#202020_1px,transparent_1px)] bg-[size:24px_24px] opacity-40"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Icons
+        lucide.createIcons();
+
+        // Theme Toggle Logic
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // Check preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</body>
+</html>

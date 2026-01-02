@@ -24,3 +24,9 @@ The client ("Big Sam") needs to defend this project academically. Ideally, it lo
 1. Scaffold the Next.js app with the "Medical Cyber" theme.
 2. Implement the LSB Steganography Utility (Encode/Decode).
 3. Build the Dashboard for Uploading/Downloading.
+
+## Mandatory Mockup-Driven Implementation
+The `/docs/mockups` folder is the **UNQUESTIONABLE source of truth** for all front-end UI/UX.
+You must NOT deviate from the layout, color palette, typography, or component structure defined in the mockups.
+Before implementing any page, open the corresponding mockup file and replicate it exactly.
+

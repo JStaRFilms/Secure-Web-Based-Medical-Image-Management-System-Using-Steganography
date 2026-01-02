@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigSam Steganography - Decryption Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        clinical: { bg: '#f8fafc', surface: '#ffffff', primary: '#2563eb', accent: '#0ea5e9' },
+                        cyber: { bg: '#09090b', surface: '#18181b', primary: '#06b6d4', accent: '#6366f1' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans transition-colors duration-300 h-screen flex flex-col">
+
+    <!-- Nav -->
+    <nav
+        class="border-b border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md px-6 h-16 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+            <a href="dashboard.html" class="p-2 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </a>
+            <span class="font-bold tracking-tight">Decryption Lab</span>
+        </div>
+        <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800">
+            <i data-lucide="moon" class="w-5 h-5"></i>
+        </button>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 flex overflow-hidden">
+
+        <!-- Input Panel (Center) -->
+        <div class="flex-1 p-12 flex flex-col items-center justify-center">
+
+            <div class="max-w-2xl w-full space-y-8">
+
+                <div class="text-center">
+                    <h1 class="text-3xl font-bold mb-2">Extract Hidden Data</h1>
+                    <p class="text-slate-500 dark:text-zinc-400">Upload a Stego-Image to retrieve the diagnosis.</p>
+                </div>
+
+                <!-- Dropzone -->
+                <div
+                    class="border-2 border-dashed border-slate-300 dark:border-zinc-700 rounded-2xl p-12 text-center hover:border-purple-500 dark:hover:border-indigo-500 transition-all cursor-pointer bg-white dark:bg-zinc-900 shadow-sm relative overflow-hidden group">
+                    <!-- Hover Glow -->
+                    <div
+                        class="absolute inset-0 bg-purple-500/5 dark:bg-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    </div>
+
+                    <div
+                        class="w-16 h-16 bg-purple-50 dark:bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="file-key" class="w-8 h-8 text-purple-600 dark:text-indigo-400"></i>
+                    </div>
+                    <h3 class="text-lg font-medium">Drop Encrypted PNG</h3>
+                    <p class="text-sm text-slate-500 mt-1">or click to browse</p>
+                </div>
+
+                <!-- Terminal Output (Simulated) -->
+                <div
+                    class="bg-slate-900 rounded-xl p-6 font-mono text-sm h-48 overflow-y-auto border border-slate-800 shadow-inner">
+                    <div class="flex items-center gap-2 border-b border-slate-800 pb-2 mb-4">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-slate-500 ml-2">decoder_log.txt</span>
+                    </div>
+                    <div class="space-y-1 text-slate-300">
+                        <p>> System initialized.</p>
+                        <p>> Waiting for input stream...</p>
+                        <p class="animate-pulse">_</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+    </script>
+</body>
+
+</html>
