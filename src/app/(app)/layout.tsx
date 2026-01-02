@@ -1,10 +1,25 @@
+'use client'
+
 import { Sidebar } from '@/components/Sidebar'
+import { usePathname } from 'next/navigation'
 
 export default function AppLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+    const pathname = usePathname()
+    // Encryption and Decryption labs have their own full-page layouts (standalone)
+    const isStandalone = pathname === '/encryption-lab' || pathname === '/decryption-lab'
+
+    if (isStandalone) {
+        return (
+            <div className="h-screen overflow-hidden bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans transition-colors duration-300">
+                {children}
+            </div>
+        )
+    }
+
     return (
         <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans transition-colors duration-300">
             <Sidebar />

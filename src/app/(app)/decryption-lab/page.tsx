@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { FileKey, ArrowLeft, Terminal } from 'lucide-react'
+import { FileKey, ArrowLeft, Terminal, Moon, Sun } from 'lucide-react'
 import Link from 'next/link'
 import { decodeLSB } from '@/features/steganography/utils/lsb'
 import { logEvent } from '@/actions/audit'
+import { useTheme } from '@/hooks/use-theme'
 
 export default function DecryptionLab() {
+    const { theme, toggleTheme } = useTheme()
     const [logs, setLogs] = useState<string[]>(['> System initialized.', '> Waiting for input stream...'])
     const [decodedText, setDecodedText] = useState<string | null>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -42,7 +44,7 @@ export default function DecryptionLab() {
     }
 
     return (
-        <div className="flex flex-col h-[calc(100vh-64px)] overflow-hidden">
+        <div className="flex flex-col h-screen overflow-hidden bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-300">
             <nav className="border-b border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md px-6 h-16 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-3">
                     <Link href="/dashboard" className="p-2 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">
@@ -50,6 +52,9 @@ export default function DecryptionLab() {
                     </Link>
                     <span className="font-bold tracking-tight">Decryption Lab</span>
                 </div>
+                <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors">
+                    {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+                </button>
             </nav>
 
             <main className="flex-1 flex overflow-hidden">
