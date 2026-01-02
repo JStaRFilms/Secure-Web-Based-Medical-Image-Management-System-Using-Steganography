@@ -1,12 +1,11 @@
-'use client'
-
 import React, { useCallback, useState } from 'react'
 import { UploadCloud, FileKey, X } from 'lucide-react'
+import { useDropzone } from 'react-dropzone'
 import { cn } from '@/lib/utils'
 
 interface FileUploaderProps {
     onFileSelect: (file: File) => void
-    accept?: string
+    accept?: Record<string, string[]>
     label?: string
     subLabel?: string
     icon?: React.ElementType
@@ -16,73 +15,51 @@ interface FileUploaderProps {
 
 export default function FileUploader({
     onFileSelect,
-    accept = "image/png, image/jpeg",
+    accept = {
+        'image/png': ['.png'],
+        'image/jpeg': ['.jpg', '.jpeg'],
+    },
     label = "Drop X-Ray or Scan",
     subLabel = "PNG, JPG only",
     icon: Icon = UploadCloud,
     className,
     activeClassName
 }: FileUploaderProps) {
-    const [isDragOver, setIsDragOver] = useState(false)
     const [selectedFileName, setSelectedFileName] = useState<string | null>(null)
 
-    const handleDragOver = useCallback((e: React.DragEvent) => {
-        e.preventDefault()
-        setIsDragOver(true)
-    }, [])
-
-    const handleDragLeave = useCallback((e: React.DragEvent) => {
-        e.preventDefault()
-        setIsDragOver(false)
-    }, [])
-
-    const handleDrop = useCallback((e: React.DragEvent) => {
-        e.preventDefault()
-        setIsDragOver(false)
-
-        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            const file = e.dataTransfer.files[0]
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        if (acceptedFiles.length > 0) {
+            const file = acceptedFiles[0]
             setSelectedFileName(file.name)
             onFileSelect(file)
         }
     }, [onFileSelect])
 
-    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const file = e.target.files[0]
-            setSelectedFileName(file.name)
-            onFileSelect(file)
-        }
-    }, [onFileSelect])
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        accept,
+        maxFiles: 1
+    })
 
     const clearFile = (e: React.MouseEvent) => {
         e.stopPropagation()
         setSelectedFileName(null)
-        // We might want a callback for clearing too, but simplified for now
+        // Reset the file input if needed, though react-dropzone handles this well usually
     }
 
     return (
         <div
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => document.getElementById('file-upload')?.click()}
+            {...getRootProps()}
             className={cn(
                 "border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer relative",
-                isDragOver
+                isDragActive
                     ? "border-blue-500 bg-blue-50 dark:bg-zinc-800"
                     : "border-slate-300 dark:border-zinc-700 hover:border-blue-500 dark:hover:border-cyan-500 bg-slate-50 dark:bg-zinc-950/50",
-                activeClassName && isDragOver ? activeClassName : "",
+                activeClassName && isDragActive ? activeClassName : "",
                 className
             )}
         >
-            <input
-                id="file-upload"
-                type="file"
-                className="hidden"
-                accept={accept}
-                onChange={handleChange}
-            />
+            <input {...getInputProps()} />
 
             {selectedFileName ? (
                 <div className="flex flex-col items-center">

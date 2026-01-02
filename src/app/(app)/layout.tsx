@@ -1,4 +1,5 @@
 import Sidebar from '@/components/Sidebar'
+import SessionManager from '@/components/SessionManager'
 // We don't import Header here because Header title might change per page.
 // Or we can make it a specific layout.
 // For now, let's keep the layout simple: Sidebar + Content Area.
@@ -15,6 +16,7 @@ export default function DashboardLayout({
 }) {
     return (
         <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 font-sans transition-colors duration-300">
+            <SessionManager />
             <Sidebar />
             <main className="flex-1 flex flex-col overflow-hidden">
                 {/* The page itself will handle the scrolling and header if needed, or we wrapping it here. */}

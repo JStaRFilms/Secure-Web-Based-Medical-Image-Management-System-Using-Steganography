@@ -29,6 +29,16 @@ export async function getRecentAudits() {
     }
 }
 
+export async function getAllAudits() {
+    try {
+        return await prisma.encryptionEvent.findMany({
+            orderBy: { timestamp: 'desc' }
+        })
+    } catch (error) {
+        return []
+    }
+}
+
 export async function getAuditStats() {
     try {
         const totalEncryptions = await prisma.encryptionEvent.count({

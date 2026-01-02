@@ -8,6 +8,7 @@ import FileUploader from '@/components/FileUploader'
 import { cn } from '@/lib/utils'
 import { GlobalSteganography } from '@/lib/steganography'
 import { logAudit } from '@/app/actions/audit'
+import { readDicomFile } from '@/lib/dicom'
 
 export default function EncryptionLabPage() {
     const [sourceImage, setSourceImage] = useState<File | null>(null)
@@ -19,12 +20,33 @@ export default function EncryptionLabPage() {
     const [usePassword, setUsePassword] = useState(false)
     const [isProcessing, setIsProcessing] = useState(false)
     const [resultUrl, setResultUrl] = useState<string | null>(null)
-
-    const handleFileSelect = (file: File) => {
+    const handleFileSelect = async (file: File) => {
         setSourceImage(file)
-        const url = URL.createObjectURL(file)
-        setPreviewUrl(url)
         setResultUrl(null)
+
+        try {
+            if (file.name.endsWith('.dcm')) {
+                // Convert DICOM to Blob for preview
+                const imageData = await readDicomFile(file)
+                const canvas = document.createElement('canvas')
+                canvas.width = imageData.width
+                canvas.height = imageData.height
+                const ctx = canvas.getContext('2d')
+                if (!ctx) return
+
+                ctx.putImageData(imageData, 0, 0)
+                canvas.toBlob((blob) => {
+                    if (blob) setPreviewUrl(URL.createObjectURL(blob))
+                })
+            } else {
+                // Standard Image
+                const url = URL.createObjectURL(file)
+                setPreviewUrl(url)
+            }
+        } catch (error) {
+            console.error("Failed to load file:", error)
+            alert("Error loading file. " + error)
+        }
     }
 
     const handleEncode = async () => {
@@ -32,17 +54,29 @@ export default function EncryptionLabPage() {
         setIsProcessing(true)
 
         try {
-            // 1. Load Image
-            const imgBitmap = await createImageBitmap(sourceImage)
+            let imageData: ImageData
+            let ctx: CanvasRenderingContext2D
+
+            // 1. Load Image Data (Standard vs DICOM)
             const canvas = document.createElement('canvas')
-            canvas.width = imgBitmap.width
-            canvas.height = imgBitmap.height
-            const ctx = canvas.getContext('2d')
 
-            if (!ctx) throw new Error('Could not get canvas context')
+            if (sourceImage.name.endsWith('.dcm')) {
+                imageData = await readDicomFile(sourceImage)
+                canvas.width = imageData.width
+                canvas.height = imageData.height
+                ctx = canvas.getContext('2d')!
+                ctx.putImageData(imageData, 0, 0)
+            } else {
+                const imgBitmap = await createImageBitmap(sourceImage)
+                canvas.width = imgBitmap.width
+                canvas.height = imgBitmap.height
+                ctx = canvas.getContext('2d')!
+                ctx.drawImage(imgBitmap, 0, 0)
+                imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+            }
 
-            ctx.drawImage(imgBitmap, 0, 0)
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+            // 2. Encode ...
+
 
             // 2. Encode
             // Note: This operation effectively blocks the main thread.
@@ -148,7 +182,15 @@ export default function EncryptionLabPage() {
                             <span className="w-6 h-6 rounded bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-xs">1</span>
                             Source Image
                         </h3>
-                        <FileUploader onFileSelect={handleFileSelect} />
+                        <FileUploader
+                            onFileSelect={handleFileSelect}
+                            accept={{
+                                'image/png': ['.png'],
+                                'image/jpeg': ['.jpg', '.jpeg'],
+                                'application/dicom': ['.dcm']
+                            }}
+                            subLabel="PNG, JPG, DICOM"
+                        />
                     </div>
 
                     {/* Step 2 */}
