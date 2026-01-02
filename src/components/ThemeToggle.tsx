@@ -1,45 +1,47 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Moon, Sun } from 'lucide-react'
-import { useEffect, useState } from 'react'
 
 export function ThemeToggle() {
-    const [isDark, setIsDark] = useState(false)
+    const [theme, setTheme] = useState<'light' | 'dark'>('light')
 
     useEffect(() => {
-        // Check initial preference
-        if (document.documentElement.classList.contains('dark') ||
-            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setIsDark(true)
+        // Check local storage or system preference
+        if (
+            localStorage.theme === 'dark' ||
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
             document.documentElement.classList.add('dark')
+            setTheme('dark')
         } else {
-            setIsDark(false)
             document.documentElement.classList.remove('dark')
+            setTheme('light')
         }
     }, [])
 
     const toggleTheme = () => {
-        if (isDark) {
-            document.documentElement.classList.remove('dark')
-            localStorage.theme = 'light'
-            setIsDark(false)
-        } else {
+        if (theme === 'light') {
             document.documentElement.classList.add('dark')
             localStorage.theme = 'dark'
-            setIsDark(true)
+            setTheme('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+            localStorage.theme = 'light'
+            setTheme('light')
         }
     }
 
     return (
         <button
             onClick={toggleTheme}
-            className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-2 rounded-full shadow-lg hover:scale-105 transition-transform"
+            className="p-2 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 hover:bg-slate-200 dark:hover:bg-zinc-700 transition-colors"
             aria-label="Toggle Theme"
         >
-            {isDark ? (
-                <Moon className="w-5 h-5 text-cyan-400" />
+            {theme === 'light' ? (
+                <Moon className="w-5 h-5" />
             ) : (
-                <Sun className="w-5 h-5 text-orange-500" />
+                <Sun className="w-5 h-5" />
             )}
         </button>
     )

@@ -30,10 +30,10 @@ export default function Home() {
               Security
             </Link>
             <Link
-              href="/dashboard"
+              href="/sign-in"
               className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-cyan-600 dark:hover:bg-cyan-700 px-4 py-2 rounded-lg transition-all shadow-lg shadow-blue-500/20 dark:shadow-cyan-500/20"
             >
-              Access Portal
+              System Login
             </Link>
           </div>
         </div>

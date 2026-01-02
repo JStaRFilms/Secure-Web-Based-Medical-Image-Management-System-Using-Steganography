@@ -1,17 +1,22 @@
 'use server'
 
-import { auth } from '@clerk/nextjs/server'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export async function logEvent(operation: string, details: string) {
-    const { userId } = await auth()
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+
+    const userId = session?.user?.id || 'anonymous';
 
     await prisma.encryptionEvent.create({
         data: {
-            userId: userId || 'anonymous',
+            userId,
             operation,
             details,
         }
