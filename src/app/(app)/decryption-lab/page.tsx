@@ -80,7 +80,14 @@ export default function DecryptionLabPage() {
         try {
             const message = await GlobalSteganography.decrypt(encryptedPayload, password)
             setDecryptedMessage(message)
-            setLogs(prev => [...prev, '> ACCESS GRANTED.', '> Payload decrypted successfully.'])
+            setLogs(prev => [
+                ...prev,
+                '> Verifying integrity...',
+                '> Extracting Dynamic Salt...',
+                '> Deriving AES-256 Key (PBKDF2)...',
+                '> ACCESS GRANTED.',
+                '> Payload decrypted successfully.'
+            ])
             setRequiresPassword(false)
 
             await logAudit('DECRYPT_OP', file?.name + " (AES-256)")

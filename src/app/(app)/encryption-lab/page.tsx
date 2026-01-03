@@ -222,18 +222,28 @@ export default function EncryptionLabPage() {
                                         onChange={(e) => setUsePassword(e.target.checked)}
                                         className="rounded text-blue-600 dark:text-cyan-500 focus:ring-offset-0"
                                     />
-                                    <span className="text-sm font-medium">Add Password Protection</span>
+                                    <span className="text-sm font-medium">Add Password Protection (AES-GCM)</span>
                                 </label>
 
                                 {usePassword && (
                                     <div className="animate-in fade-in slide-in-from-top-2 ml-1">
-                                        <input
-                                            type="password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            placeholder="Enter secure password"
-                                            className="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        />
+                                        <div className="relative">
+                                            <input
+                                                type="password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                placeholder="Enter secure password"
+                                                className="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-lg p-3 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" /><path d="m9 12 2 2 4-4" /></svg>
+                                            </div>
+                                            {password.length > 0 && (
+                                                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] uppercase font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded">
+                                                    Salted & Secure
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </div>

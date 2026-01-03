@@ -19,8 +19,8 @@ export class GlobalSteganography {
 
     // --- ENCRYPTION (AES-GCM) ---
 
-    // Generate a key from a password
-    private static async getCryptoKey(password: string): Promise<CryptoKey> {
+    // Generate a key from a password using a specific salt
+    private static async getCryptoKey(password: string, salt: Uint8Array): Promise<CryptoKey> {
         const enc = new TextEncoder();
         const keyMaterial = await window.crypto.subtle.importKey(
             "raw",
@@ -32,7 +32,7 @@ export class GlobalSteganography {
         return window.crypto.subtle.deriveKey(
             {
                 name: "PBKDF2",
-                salt: enc.encode("BigSamSalt"), // In prod, random salt stored with data is better
+                salt: salt,
                 iterations: 100000,
                 hash: "SHA-256",
             },
@@ -44,7 +44,9 @@ export class GlobalSteganography {
     }
 
     static async encrypt(text: string, password: string): Promise<string> {
-        const key = await this.getCryptoKey(password);
+        // Generate a random 16-byte salt
+        const salt = window.crypto.getRandomValues(new Uint8Array(16));
+        const key = await this.getCryptoKey(password, salt);
         const iv = window.crypto.getRandomValues(new Uint8Array(12));
         const encodedText = new TextEncoder().encode(text);
 
@@ -54,8 +56,9 @@ export class GlobalSteganography {
             encodedText
         );
 
-        // Pack IV + Ciphertext into JSON string to transport both
+        // Pack SALT + IV + Ciphertext into JSON string to transport everything
         const packageData = {
+            salt: Array.from(salt),
             iv: Array.from(iv),
             data: Array.from(new Uint8Array(encryptedBuffer))
         };
@@ -71,9 +74,16 @@ export class GlobalSteganography {
         const jsonStr = packagedText.replace("ENC:", "");
         const pkg = JSON.parse(jsonStr);
 
-        const key = await this.getCryptoKey(password);
+        // Extract Salt, IV, and Data
+        if (!pkg.salt || !pkg.iv || !pkg.data) {
+            throw new Error("Invalid encryption package format.");
+        }
+
+        const salt = new Uint8Array(pkg.salt);
         const iv = new Uint8Array(pkg.iv);
         const data = new Uint8Array(pkg.data);
+
+        const key = await this.getCryptoKey(password, salt);
 
         const decryptedBuffer = await window.crypto.subtle.decrypt(
             { name: "AES-GCM", iv: iv },
