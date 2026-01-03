@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Clinical Colors (Light Mode Vibe) */
+  --color-clinical-bg: #f8fafc;
+  --color-clinical-surface: #ffffff;
+  --color-clinical-primary: #2563eb;
+  --color-clinical-accent: #0ea5e9;
+
+  /* Cyber Colors (Dark Mode Vibe) */
+  --color-cyber-bg: #09090b;
+  --color-cyber-surface: #18181b;
+  --color-cyber-primary: #06b6d4;
+  --color-cyber-accent: #6366f1;
+
+  /* Animation */
+  --animate-scan: scan 2s linear infinite;
+
+  @keyframes scan {
+    0% {
+      top: 0%;
+      opacity: 0;
+    }
+
+    10% {
+      opacity: 1;
+    }
+
+    90% {
+      opacity: 1;
+    }
+
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+}
+
+/* Custom Utilities if needed */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900;
+  }
+}
+
+/* Dark mode handling usually requires 'dark' class on html.
+   Tailwind v4 detects dark mode automatically if using media strategy,
+   or we can stick to 'selector' strategy but v4 might default to one.
+   If using 'class' (selector), we need to ensure the class is toggled.
+   We will rely on standard 'dark:' variant which v4 supports.
+*/
