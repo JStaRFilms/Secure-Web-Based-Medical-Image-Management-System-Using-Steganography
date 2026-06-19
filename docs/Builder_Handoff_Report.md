@@ -34,6 +34,19 @@
 
 ## Clean Install Process
 
+### Windows Command Prompt
+
+```bat
+git clone https://github.com/JStaRFilms/Secure-Web-Based-Medical-Image-Management-System-Using-Steganography.git
+cd Secure-Web-Based-Medical-Image-Management-System-Using-Steganography
+pnpm install
+copy .env.example .env
+pnpm db:migrate
+pnpm dev
+```
+
+### macOS, Linux, Git Bash, or PowerShell
+
 ```bash
 git clone https://github.com/JStaRFilms/Secure-Web-Based-Medical-Image-Management-System-Using-Steganography.git
 cd Secure-Web-Based-Medical-Image-Management-System-Using-Steganography
@@ -42,6 +55,8 @@ cp .env.example .env
 pnpm db:migrate
 pnpm dev
 ```
+
+If pnpm shows `[ERR_PNPM_IGNORED_BUILDS]`, run `pnpm approve-builds`, approve the listed Prisma/Next native packages, then run `pnpm install` again.
 
 Open <http://localhost:3000>, create an account on the Sign Up page, then sign in.
 

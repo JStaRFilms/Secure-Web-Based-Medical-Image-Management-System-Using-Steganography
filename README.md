@@ -35,6 +35,19 @@ npm install -g pnpm
 
 ## Quick start
 
+### Windows Command Prompt
+
+```bat
+git clone https://github.com/JStaRFilms/Secure-Web-Based-Medical-Image-Management-System-Using-Steganography.git
+cd Secure-Web-Based-Medical-Image-Management-System-Using-Steganography
+pnpm install
+copy .env.example .env
+pnpm db:migrate
+pnpm dev
+```
+
+### macOS, Linux, Git Bash, or PowerShell
+
 ```bash
 git clone https://github.com/JStaRFilms/Secure-Web-Based-Medical-Image-Management-System-Using-Steganography.git
 cd Secure-Web-Based-Medical-Image-Management-System-Using-Steganography
@@ -51,6 +64,12 @@ Create a user from the **Sign Up** page, then sign in and use the dashboard.
 ## Environment setup
 
 The project includes `.env.example`. Copy it to `.env` before running the app:
+
+```bat
+copy .env.example .env
+```
+
+If you are using macOS, Linux, Git Bash, or PowerShell, this also works:
 
 ```bash
 cp .env.example .env
@@ -72,6 +91,17 @@ openssl rand -base64 32
 ```
 
 > The SQLite file is created at `prisma/dev.db` because Prisma resolves `file:./dev.db` relative to the `prisma/schema.prisma` file.
+
+## pnpm build approval note
+
+This repo pre-approves the required Prisma/Next native build scripts in `package.json`. If pnpm still shows `[ERR_PNPM_IGNORED_BUILDS]`, run:
+
+```bash
+pnpm approve-builds
+pnpm install
+```
+
+When prompted, select the listed packages with <kbd>Space</kbd> (or press <kbd>A</kbd> to select all), then press <kbd>Enter</kbd>.
 
 ## Database setup
 
