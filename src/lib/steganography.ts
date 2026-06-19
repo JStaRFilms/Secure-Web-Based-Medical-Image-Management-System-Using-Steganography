@@ -1,5 +1,9 @@
 export class GlobalSteganography {
 
+    private static toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
+        return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
+    }
+
     // Text <-> Binary Utils
     private static textToBinary(text: string): string {
         return text.split('').map(char => {
@@ -32,7 +36,7 @@ export class GlobalSteganography {
         return window.crypto.subtle.deriveKey(
             {
                 name: "PBKDF2",
-                salt: salt,
+                salt: this.toArrayBuffer(salt),
                 iterations: 100000,
                 hash: "SHA-256",
             },
@@ -51,9 +55,9 @@ export class GlobalSteganography {
         const encodedText = new TextEncoder().encode(text);
 
         const encryptedBuffer = await window.crypto.subtle.encrypt(
-            { name: "AES-GCM", iv: iv },
+            { name: "AES-GCM", iv: this.toArrayBuffer(iv) },
             key,
-            encodedText
+            this.toArrayBuffer(encodedText)
         );
 
         // Pack SALT + IV + Ciphertext into JSON string to transport everything
@@ -86,9 +90,9 @@ export class GlobalSteganography {
         const key = await this.getCryptoKey(password, salt);
 
         const decryptedBuffer = await window.crypto.subtle.decrypt(
-            { name: "AES-GCM", iv: iv },
+            { name: "AES-GCM", iv: this.toArrayBuffer(iv) },
             key,
-            data
+            this.toArrayBuffer(data)
         );
 
         return new TextDecoder().decode(decryptedBuffer);

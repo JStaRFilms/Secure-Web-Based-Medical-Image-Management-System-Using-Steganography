@@ -1,23 +1,22 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+function getInitialTheme(): 'light' | 'dark' {
+    if (typeof window === 'undefined') return 'light'
+
+    return localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ? 'dark'
+        : 'light'
+}
 
 export function useTheme() {
-    const [theme, setTheme] = useState<'light' | 'dark'>('light')
+    const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme)
 
     useEffect(() => {
-        // Check local storage or system preference
-        if (
-            localStorage.theme === 'dark' ||
-            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-        ) {
-            document.documentElement.classList.add('dark')
-            setTheme('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-            setTheme('light')
-        }
-    }, [])
+        document.documentElement.classList.toggle('dark', theme === 'dark')
+    }, [theme])
 
     const toggleTheme = () => {
         if (theme === 'light') {
