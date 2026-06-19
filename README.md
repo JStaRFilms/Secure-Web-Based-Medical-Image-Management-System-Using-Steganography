@@ -1,114 +1,147 @@
-# BigSam Steganography 🔒
+# Secure Web-Based Medical Image Management System Using Steganography
 
-> **Secure. Sterile. Steganographic.**
-> A "Senior Developer" grade medical image management system for securely embedding sensitive patient diagnoses within medical imaging data.
+A Next.js medical image management prototype for hiding and recovering sensitive patient notes inside image files with steganography. It includes email/password authentication, protected dashboard routes, an encryption lab, a decryption lab, and SQLite-backed audit logging.
 
-![Project Status](https://img.shields.io/badge/Status-Active_Development-brightgreen)
-![Tech Stack](https://img.shields.io/badge/Stack-Next.js_14_|_Tailwind_|_Prisma-blue)
-![Security](https://img.shields.io/badge/Security-Client--Side_LSB-red)
+## What the project does
 
-## 🏥 Mission
+- **Encrypt / embed messages:** Upload an image, enter a message, optionally add a password, and download the generated steganographic PNG.
+- **Decrypt / extract messages:** Upload a generated image and recover the hidden message.
+- **Authentication:** Better Auth email/password sign-up and sign-in.
+- **Audit logs:** Prisma records encryption/decryption activity in a local SQLite database.
+- **Easy local install:** No hosted database is required. The app uses SQLite by default.
 
-To provide medical professionals with a highly secure, web-based tool for hiding patient data inside X-Rays and scans using **Least Significant Bit (LSB)** steganography. This system ensures that sensitive information travels invisibly with the image itself, protected by an additional layer of access control and encryption logic.
+## Tech stack
 
-**Vibe:** Professional, High-Security, Clinical.
+- **Framework:** Next.js 16 App Router
+- **Language:** TypeScript + React 19
+- **Styling:** Tailwind CSS v4
+- **Authentication:** Better Auth
+- **Database:** SQLite with Prisma ORM
+- **Image/steganography:** Browser-side canvas processing plus project steganography utilities
+- **Package manager:** pnpm
 
----
+## Requirements
 
-## ⚡ Tech Stack
+Install these first:
 
-Built on the **VibeCode Protocol** for speed, reliability, and aesthetic excellence.
+- **Node.js 20+** recommended
+- **pnpm**
 
--   **Framework:** [Next.js 16](https://nextjs.org/) (App Router, Server Components)
--   **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) & [Shadcn UI](https://ui.shadcn.com/)
--   **Language:** TypeScript (Strict Mode)
--   **Auth:** [Better Auth](https://better-auth.com/) (Self-Hosted, Secure)
--   **Database:** Prisma ORM (SQLite for Dev, Neon for Prod)
--   **Steganography:** Custom Client-Side LSB Algorithm (`daikon` for DICOM support)
--   **Validation:** Zod schemas for all inputs
+If pnpm is not installed:
 
----
-
-## 🛠 Features
-
-### 1. Medical Authentication Node
-Secure entry point for authorized personnel.
--   **Self-Hosted Auth:** Full control over user sessions.
--   **Role-Based Access:** Distinction between Doctors (Encoders) and Admin/Auditors.
-
-### 2. Encryption Lab (The Encoder)
-The core workspace for embedding data.
--   **LSB Algorithm:** Hides text data in the least significant bits of image pixels.
--   **Client-Side Processing:** Images are processed in the browser; raw patient data never leaves the client in plain text during the encoding phase.
--   **DICOM Support:** Native handling of medical imaging formats.
--   **Visual Integrity:** "Before & After" comparison to ensure the image remains visually identical to the naked eye.
-
-### 3. Decryption Lab (The Decoder)
-The extraction interface for authorized receivers.
--   **Secure Extraction:** rapid decoding of hidden messages from steganographic images.
--   **Key Verification:** (Planned) Optional private key requirement for unlocking messages.
-
-### 4. Audit & Compliance
--   **Encryption Events:** Tracks who encrypted what and when.
--   **Immutable Logs:** Database records for all steganography operations to ensure accountability.
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
--   Node.js 18+
--   pnpm (Preferred)
-
-### Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-org/bigsam-steganography.git
-    cd bigsam-steganography
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    pnpm install
-    ```
-
-3.  **Setup Environment:**
-    Copy `.env.example` to `.env` and configure your database/auth keys.
-
-4.  **Initialize Database:**
-    ```bash
-    pnpm dlx prisma db push
-    ```
-
-5.  **Run Development Server:**
-    ```bash
-    pnpm dev
-    ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
----
-
-## 📂 Project Structure
-
-```
-├── src/
-│   ├── app/                # Next.js App Router
-│   ├── components/         # React Components (UI & Features)
-│   ├── features/           # Domain-specific logic (VibeCode Pattern)
-│   ├── lib/                # Utilities (Steganography logic, DB)
-│   └── secure-system/      # Core security modules
-├── docs/                   # Documentation & Requirements
-└── prisma/                 # Database Schema
+```bash
+npm install -g pnpm
 ```
 
----
+## Quick start
 
-## 🛡️ Security Note
+```bash
+git clone https://github.com/JStaRFilms/Secure-Web-Based-Medical-Image-Management-System-Using-Steganography.git
+cd Secure-Web-Based-Medical-Image-Management-System-Using-Steganography
+pnpm install
+cp .env.example .env
+pnpm db:migrate
+pnpm dev
+```
 
-This tool uses **Least Significant Bit (LSB)** steganography. While effective for visual obfuscation, it is not a replacement for strong encryption (AES-256). For maximum security, this system is designed to layer steganography *on top* of encrypted messages in future updates.
+Open the app at <http://localhost:3000>.
 
----
+Create a user from the **Sign Up** page, then sign in and use the dashboard.
 
-*Built with precision.*
+## Environment setup
+
+The project includes `.env.example`. Copy it to `.env` before running the app:
+
+```bash
+cp .env.example .env
+```
+
+Default local values:
+
+```env
+DATABASE_URL="file:./dev.db"
+BETTER_AUTH_SECRET="replace-with-a-long-random-secret"
+BETTER_AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_BETTER_AUTH_URL="http://localhost:3000"
+```
+
+For a real handoff/demo, replace `BETTER_AUTH_SECRET` with a strong random value:
+
+```bash
+openssl rand -base64 32
+```
+
+> The SQLite file is created at `prisma/dev.db` because Prisma resolves `file:./dev.db` relative to the `prisma/schema.prisma` file.
+
+## Database setup
+
+This project already uses **SQLite**, so no external database service is needed.
+
+Run migrations after installing dependencies and creating `.env`:
+
+```bash
+pnpm db:migrate
+```
+
+Useful database commands:
+
+```bash
+pnpm db:generate   # regenerate Prisma Client
+pnpm db:migrate    # create/update local SQLite database using migrations
+pnpm db:deploy     # apply migrations in deployment/CI environments
+pnpm db:push       # push schema directly without migration history, useful for quick prototypes
+pnpm db:studio     # open Prisma Studio to inspect data
+```
+
+## Run commands
+
+```bash
+pnpm dev       # start development server
+pnpm build     # production build check
+pnpm start     # run production build locally after pnpm build
+pnpm lint      # run ESLint
+pnpm setup     # install dependencies, generate Prisma Client, and run migrations
+```
+
+## Project structure
+
+```text
+src/
+├── app/
+│   ├── (app)/              # Protected dashboard, labs, settings, audit logs
+│   ├── (auth)/             # Sign in and sign up pages
+│   ├── api/auth/[...all]/  # Better Auth API route
+│   └── actions/            # Server actions for audit data
+├── components/             # Shared UI components
+├── hooks/                  # Client hooks
+└── lib/                    # Auth, Prisma, DICOM, steganography, utilities
+
+prisma/
+├── schema.prisma           # SQLite datasource and models
+└── migrations/             # Database migration history
+
+docs/                       # Project requirements, mockups, handoff notes, paper assets
+```
+
+## Handoff installation checklist
+
+Before submitting the project, confirm the recipient can do the following from a clean clone:
+
+1. Install Node.js 20+ and pnpm.
+2. Run `pnpm install`.
+3. Copy `.env.example` to `.env`.
+4. Replace `BETTER_AUTH_SECRET` in `.env` with a strong random secret.
+5. Run `pnpm db:migrate` to create `prisma/dev.db`.
+6. Run `pnpm dev`.
+7. Visit <http://localhost:3000>, sign up, sign in, and test the encryption/decryption labs.
+
+## Notes for deployment
+
+- SQLite is excellent for easy local installation and single-instance demos.
+- If deploying publicly, make sure the host provides persistent storage for the SQLite database file, or move to a managed database later.
+- Always set a unique `BETTER_AUTH_SECRET` in production.
+- Update `BETTER_AUTH_URL` and `NEXT_PUBLIC_BETTER_AUTH_URL` to the deployed site URL.
+
+## Security note
+
+This is a steganography prototype for academic/demo use. Steganography hides data inside an image, but it should not be treated as a full replacement for strong cryptography, secure key management, HTTPS, access controls, and compliance review in real medical environments.

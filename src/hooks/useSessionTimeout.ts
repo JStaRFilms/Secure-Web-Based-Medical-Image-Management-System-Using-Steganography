@@ -1,12 +1,10 @@
 import { useEffect, useCallback, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 
 const EVENTS = ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'];
 
 export function useSessionTimeout() {
-    const router = useRouter();
     const timerRef = useRef<NodeJS.Timeout | null>(null);
-    const lastActivityRef = useRef<number>(Date.now());
+    const lastActivityRef = useRef<number>(0);
 
     const logout = useCallback(() => {
         // Clear local data effectively logging out in this client-side only context
@@ -26,7 +24,7 @@ export function useSessionTimeout() {
         } else {
             window.location.reload();
         }
-    }, [router]);
+    }, []);
 
     const checkTimeout = useCallback(() => {
         const storedTimeout = localStorage.getItem('settings_autoLogout');
@@ -49,6 +47,8 @@ export function useSessionTimeout() {
     }, []);
 
     useEffect(() => {
+        lastActivityRef.current = Date.now();
+
         // Initial check
         const intervalId = setInterval(checkTimeout, 10000); // Check every 10 seconds
         timerRef.current = intervalId;
